@@ -4,8 +4,10 @@ import logging
 import traceback
 
 import pandas as pd
-from sklearn.externals import joblib
+import joblib
 from sklearn.preprocessing import StandardScaler
+
+
 
 app = Flask(__name__)
 LOG = create_logger(app)
@@ -65,10 +67,10 @@ def predict():
     except Exception as e:
         LOG.error("Error loading model: %s", str(e))
         LOG.error("Exception traceback: %s", traceback.format_exc())
-    return "Model not loaded"
+        return "Model not loaded"
 
     json_payload = request.json
-    LOG.info("JSON payload: %s json_payload")
+    LOG.info("JSON payload: %s", json_payload)
     inference_payload = pd.DataFrame(json_payload)
     LOG.info("inference payload DataFrame: %s inference_payload")
     scaled_payload = scale(inference_payload)
